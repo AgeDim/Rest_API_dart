@@ -30,6 +30,23 @@ class Character {
       required this.url,
       required this.created});
 
+  factory Character.fromJson(Map<String, dynamic> json) {
+    return Character(
+      id: json["id"],
+      name: json["name"],
+      status: json["status"],
+      species: json["species"],
+      type: json["type"],
+      gender: json["gender"],
+      origin: Origin.fromJson(json["origin"]),
+      location: Location.fromJson(json["location"]),
+      image: json["image"],
+      episode: List<String>.from(json['episode']),
+      url: json["url"],
+      created: json["created"],
+    );
+  }
+
   @override
   String toString() {
     return 'Character{id: $id, name: $name, status: $status, species: $species, type: $type, gender: $gender, origin: $origin, location: $location, image: $image, episode: $episode, url: $url, created: $created}';

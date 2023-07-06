@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 import 'Model/character.dart';
-import 'Model/location.dart';
-import 'Model/origin.dart';
 
 Future<Character?> fetchSingleCharacterHttp() async {
   try {
@@ -12,26 +11,7 @@ Future<Character?> fetchSingleCharacterHttp() async {
         .get(Uri.parse('https://rickandmortyapi.com/api/character/3'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
-      return Character(
-        id: jsonData['id'],
-        name: jsonData['name'],
-        status: jsonData['status'],
-        species: jsonData['species'],
-        type: jsonData['type'],
-        gender: jsonData['gender'],
-        origin: Origin(
-          name: jsonData['origin']['name'],
-          url: jsonData['origin']['url'],
-        ),
-        location: Location(
-          name: jsonData['location']['name'],
-          url: jsonData['location']['url'],
-        ),
-        image: jsonData['image'],
-        episode: List<String>.from(jsonData['episode']),
-        url: jsonData['url'],
-        created: jsonData['created'],
-      );
+      return Character.fromJson(jsonData);
     } else {
       print('Request failed with status: ${response.statusCode}');
       return null;
@@ -49,26 +29,7 @@ Future<Character?> fetchSingleCharacterDio() async {
         await dio.get('https://rickandmortyapi.com/api/character/3');
     if (response.statusCode == 200) {
       final jsonData = response.data;
-      return Character(
-        id: jsonData['id'],
-        name: jsonData['name'],
-        status: jsonData['status'],
-        species: jsonData['species'],
-        type: jsonData['type'],
-        gender: jsonData['gender'],
-        origin: Origin(
-          name: jsonData['origin']['name'],
-          url: jsonData['origin']['url'],
-        ),
-        location: Location(
-          name: jsonData['location']['name'],
-          url: jsonData['location']['url'],
-        ),
-        image: jsonData['image'],
-        episode: List<String>.from(jsonData['episode']),
-        url: jsonData['url'],
-        created: jsonData['created'],
-      );
+      return Character.fromJson(jsonData);
     } else {
       print('Request failed with status: ${response.statusCode}');
       return null;
@@ -87,26 +48,7 @@ Future<List<Character>?> fetchMultipleCharacterHttp() async {
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       for (final character in jsonData) {
-        resultList.add(Character(
-          id: character['id'],
-          name: character['name'],
-          status: character['status'],
-          species: character['species'],
-          type: character['type'],
-          gender: character['gender'],
-          origin: Origin(
-            name: character['origin']['name'],
-            url: character['origin']['url'],
-          ),
-          location: Location(
-            name: character['location']['name'],
-            url: character['location']['url'],
-          ),
-          image: character['image'],
-          episode: List<String>.from(character['episode']),
-          url: character['url'],
-          created: character['created'],
-        ));
+        resultList.add(Character.fromJson(character));
       }
       return resultList;
     } else {
@@ -128,26 +70,7 @@ Future<List<Character>?> fetchMultipleCharacterDio() async {
     if (response.statusCode == 200) {
       final jsonData = response.data.toList();
       for (final character in jsonData) {
-        resultList.add(Character(
-          id: character['id'],
-          name: character['name'],
-          status: character['status'],
-          species: character['species'],
-          type: character['type'],
-          gender: character['gender'],
-          origin: Origin(
-            name: character['origin']['name'],
-            url: character['origin']['url'],
-          ),
-          location: Location(
-            name: character['location']['name'],
-            url: character['location']['url'],
-          ),
-          image: character['image'],
-          episode: List<String>.from(character['episode']),
-          url: character['url'],
-          created: character['created'],
-        ));
+        resultList.add(Character.fromJson(character));
       }
       return resultList;
     } else {
@@ -168,26 +91,7 @@ Future<List<Character>?> fetchAllCharactersHttp(int page) async {
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       for (final character in jsonData['results']) {
-        resultList.add(Character(
-          id: character['id'],
-          name: character['name'],
-          status: character['status'],
-          species: character['species'],
-          type: character['type'],
-          gender: character['gender'],
-          origin: Origin(
-            name: character['origin']['name'],
-            url: character['origin']['url'],
-          ),
-          location: Location(
-            name: character['location']['name'],
-            url: character['location']['url'],
-          ),
-          image: character['image'],
-          episode: List<String>.from(character['episode']),
-          url: character['url'],
-          created: character['created'],
-        ));
+        resultList.add(Character.fromJson(character));
       }
       return resultList;
     } else {
@@ -209,26 +113,7 @@ Future<List<Character>?> fetchAllCharactersDio(int page) async {
     if (response.statusCode == 200) {
       final jsonData = response.data;
       for (final character in jsonData['results']) {
-        resultList.add(Character(
-          id: character['id'],
-          name: character['name'],
-          status: character['status'],
-          species: character['species'],
-          type: character['type'],
-          gender: character['gender'],
-          origin: Origin(
-            name: character['origin']['name'],
-            url: character['origin']['url'],
-          ),
-          location: Location(
-            name: character['location']['name'],
-            url: character['location']['url'],
-          ),
-          image: character['image'],
-          episode: List<String>.from(character['episode']),
-          url: character['url'],
-          created: character['created'],
-        ));
+        resultList.add(Character.fromJson(character));
       }
       return resultList;
     } else {
